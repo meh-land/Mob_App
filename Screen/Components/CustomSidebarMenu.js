@@ -45,22 +45,25 @@ const CustomSidebarMenu = (props) => {
           <>
             <TouchableOpacity
               onPress={() => {
-                props.navigation.navigate("SubmenuNavigator");
+                props.navigation.navigate("SubmenuNavigator", {
+                  screen: "EditProfile",
+                });
               }}
             >
               <Text style={stylesSidebar.submenuItem}>Edit Profile</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                props.navigation.navigate("EditProfileScreen");
+                props.navigation.navigate("SubmenuNavigator", {
+                  screen: "ChangePassword",
+                });
               }}
             >
               <Text style={stylesSidebar.submenuItem}>Change Password</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                // Handle submenu item 2 press
-                props.navigation.navigate("SubMenu3");
+                props.navigation.navigate("ChangePasswordScreen");
               }}
             >
               <Text style={stylesSidebar.submenuItem}>Delete Account</Text>

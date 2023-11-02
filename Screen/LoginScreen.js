@@ -47,7 +47,6 @@ const LoginScreen = ({ navigation }) => {
       );
 
       setLoading(false);
-
       if (response.data.status == true) {
         await AsyncStorage.setItem("user_id", response.data.user.email);
         const user = response.data.user;
@@ -177,7 +176,7 @@ const styles = StyleSheet.create({
   },
   buttonTextStyle: {
     color: "#FFFFFF",
-    paddingVertical: 10,
+    paddingVertical: 5,
     fontSize: 16,
   },
   inputStyle: {

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
+import Context from "./Context.js";
+import axios from "axios";
 // For handling gestures and touch interactions.
 import "react-native-gesture-handler";
 
@@ -15,8 +16,7 @@ import RegisterScreen from "./Screen/RegisterScreen";
 import DrawerNavigationRoutes from "./Screen/DrawerNavigationRoutes";
 import SettingsScreen from "./Screen/DrawerScreens/SettingsScreen";
 import EditProfileScreen from "./Screen/DrawerScreens/EditProfile";
-import Context from "./Context.js";
-import axios from "axios";
+import ChangePasswordScreen from "./Screen/DrawerScreens/ChangePassword";
 
 const Stack = createStackNavigator();
 
@@ -98,7 +98,33 @@ function SubmenuNavigator() {
           },
         }}
       />
-      <Stack.Screen name="ChangePassword" component={SettingsScreen} />
+      <Stack.Screen
+        name="ChangePassword"
+        component={ChangePasswordScreen}
+        options={{
+          title: "Change Password",
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}
+            >
+              <Image
+                source={require("./Image/back.png")} // Back arrow image
+                style={{ width: 25, height: 25, marginLeft: 5 }}
+              />
+            </TouchableOpacity>
+          ),
+
+          headerStyle: {
+            backgroundColor: "#ddd", //Set Header color
+          },
+          headerTintColor: "#2d6250", //Set Header text color
+          headerTitleStyle: {
+            fontWeight: "bold", //Set Header text style
+          },
+        }}
+      />
       <Stack.Screen name="DeleteAccount" component={SettingsScreen} />
     </Stack.Navigator>
   );
@@ -135,6 +161,7 @@ export default function App() {
     user_id: "",
     name: "",
     email: "",
+    password: "",
   });
   const [isInputDisabled, setInputDisabled] = useState(false);
 
