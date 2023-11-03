@@ -14,9 +14,9 @@ import SplashScreen from "./Screen/SplashScreen";
 import LoginScreen from "./Screen/LoginScreen";
 import RegisterScreen from "./Screen/RegisterScreen";
 import DrawerNavigationRoutes from "./Screen/DrawerNavigationRoutes";
-import SettingsScreen from "./Screen/DrawerScreens/SettingsScreen";
 import EditProfileScreen from "./Screen/DrawerScreens/EditProfile";
 import ChangePasswordScreen from "./Screen/DrawerScreens/ChangePassword";
+import DeleteAccount from "./Screen/DrawerScreens/DeleteAccount";
 
 const Stack = createStackNavigator();
 
@@ -125,7 +125,33 @@ function SubmenuNavigator() {
           },
         }}
       />
-      <Stack.Screen name="DeleteAccount" component={SettingsScreen} />
+      <Stack.Screen
+        name="DeleteAccount"
+        component={DeleteAccount}
+        options={{
+          title: "Delete Account",
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}
+            >
+              <Image
+                source={require("./Image/back.png")} // Back arrow image
+                style={{ width: 25, height: 25, marginLeft: 5 }}
+              />
+            </TouchableOpacity>
+          ),
+
+          headerStyle: {
+            backgroundColor: "#ddd", //Set Header color
+          },
+          headerTintColor: "#2d6250", //Set Header text color
+          headerTitleStyle: {
+            fontWeight: "bold", //Set Header text style
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 }

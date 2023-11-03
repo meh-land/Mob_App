@@ -63,7 +63,9 @@ const CustomSidebarMenu = (props) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                props.navigation.navigate("ChangePasswordScreen");
+                props.navigation.navigate("SubmenuNavigator", {
+                  screen: "DeleteAccount",
+                });
               }}
             >
               <Text style={stylesSidebar.submenuItem}>Delete Account</Text>
