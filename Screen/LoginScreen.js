@@ -20,9 +20,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const LoginScreen = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
-  const [errortext, setErrorText] = useState("");
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const { userData, setUserData } = useContext(Context);
+  const [errortext, setErrorText] = useState("");
 
   const passwordInputRef = createRef();
   // State variable to track password visibility
@@ -33,43 +34,67 @@ const LoginScreen = ({ navigation }) => {
     setShowPassword(!showPassword);
   };
 
+  const validate = () => {
+    let isValid = true;
+    let errors = {};
+
+    if (!userEmail) {
+      isValid = false;
+      errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(userEmail)) {
+      isValid = false;
+      errors.email = "Email address is invalid";
+    }
+
+    if (!userPassword) {
+      isValid = false;
+      errors.password = "Password is required";
+    }
+
+    setErrors(errors);
+    return isValid;
+  };
+
   const handleSubmitPress = async () => {
     setErrorText("");
-    if (!userEmail) {
-      alert("Please fill Email");
-      return;
-    }
-    if (!userPassword) {
-      alert("Please fill Password");
-      return;
-    }
-    setLoading(true);
-
-    try {
-      const response = await axios.post(
-        "http://192.168.8.104/apicrud/getuser.php",
-        {
-          email: userEmail,
-          password: userPassword,
-        }
-      );
-
-      setLoading(false);
-      if (response.data.status == true) {
-        await AsyncStorage.setItem("user_id", response.data.user.email);
-        const user = response.data.user;
-        setUserData(user);
-        console.log("userData");
-        console.log(userData);
-        navigation.replace("DrawerNavigationRoutes");
-      } else {
-        setErrorText(response.data.msg);
-        console.log(response.data.status);
-        console.log("Please check your email id or password");
+    setErrors;
+    if (validate()) {
+      if (!userEmail) {
+        alert("Please fill Email");
+        return;
       }
-    } catch (error) {
-      setLoading(false);
-      console.error(error);
+      if (!userPassword) {
+        alert("Please fill Password");
+        return;
+      }
+      setLoading(true);
+
+      try {
+        const response = await axios.post(
+          "http://192.168.8.104/apicrud/getuser.php",
+          {
+            email: userEmail,
+            password: userPassword,
+          }
+        );
+
+        setLoading(false);
+        if (response.data.status == true) {
+          await AsyncStorage.setItem("user_id", response.data.user.email);
+          const user = response.data.user;
+          setUserData(user);
+          console.log("userData");
+          console.log(userData);
+          navigation.replace("DrawerNavigationRoutes");
+        } else {
+          setErrorText(response.data.msg);
+          console.log(response.data.status);
+          console.log("Please check your email id or password");
+        }
+      } catch (error) {
+        setLoading(false);
+        console.error(error);
+      }
     }
   };
 
@@ -100,9 +125,7 @@ const LoginScreen = ({ navigation }) => {
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
-                onChangeText={(UserEmail) => {
-                  setUserEmail(UserEmail);
-                }}
+                onChangeText={(UserEmail) => setUserEmail(UserEmail)}
                 placeholder="Enter Email" //dummy@abc.com
                 placeholderTextColor="#8b9cb5"
                 autoCapitalize="none"
@@ -115,6 +138,10 @@ const LoginScreen = ({ navigation }) => {
                 blurOnSubmit={false}
               />
             </View>
+            {errors.email && (
+              <Text style={styles.errorTextStyle}>{errors.email}</Text>
+            )}
+
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
@@ -137,9 +164,10 @@ const LoginScreen = ({ navigation }) => {
                 onPress={toggleShowPassword}
               />
             </View>
-            {errortext != "" ? (
-              <Text style={styles.errorTextStyle}>{errortext}</Text>
-            ) : null}
+            {errors.password && (
+              <Text style={styles.errorTextStyle}>{errors.password}</Text>
+            )}
+
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
