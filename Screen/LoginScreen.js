@@ -57,16 +57,8 @@ const LoginScreen = ({ navigation }) => {
 
   const handleSubmitPress = async () => {
     setErrorText("");
-    setErrors;
+    setErrors("");
     if (validate()) {
-      if (!userEmail) {
-        alert("Please fill Email");
-        return;
-      }
-      if (!userPassword) {
-        alert("Please fill Password");
-        return;
-      }
       setLoading(true);
 
       try {

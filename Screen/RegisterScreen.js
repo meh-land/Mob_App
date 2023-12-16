@@ -18,8 +18,10 @@ const RegisterScreen = (props) => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errortext, setErrorText] = useState("");
+  const [errors, setErrors] = useState({});
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
   // State variable to track password visibility
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -37,41 +39,66 @@ const RegisterScreen = (props) => {
   const emailInputRef = createRef();
   const passwordInputRef = createRef();
 
-  const handleSubmitButton = async () => {
-    setErrorText("");
+  const validate = () => {
+    let isValid = true;
+    let errors = {};
 
-    if (!userName || !userEmail || !userPassword) {
-      console.log(userEmail);
-      console.log(userName);
-      console.log(userPassword);
-
-      return;
+    if (!userName.trim()) {
+      isValid = false;
+      errors.userName = "Name is required";
     }
 
-    setLoading(true);
+    if (!userEmail) {
+      isValid = false;
+      errors.userEmail = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(userEmail)) {
+      isValid = false;
+      errors.userEmail = "Email address is invalid";
+    }
 
-    try {
-      const response = await axios.post(
-        "http://192.168.8.104/apicrud/addusers.php",
-        {
-          fullname: userName,
-          email: userEmail,
-          password: userPassword,
+    if (!userPassword) {
+      isValid = false;
+      errors.userPassword = "Password is required";
+    }
+
+    // Assuming you have a state for confirm password
+    if (userPassword !== confirmPassword) {
+      isValid = false;
+      errors.confirmPassword = "Passwords do not match";
+    }
+
+    setErrors(errors);
+    return isValid;
+  };
+
+  const handleSubmitButton = async () => {
+    setErrorText("");
+    if (validate()) {
+      setLoading(true);
+
+      try {
+        const response = await axios.post(
+          "http://192.168.8.104/apicrud/addusers.php",
+          {
+            fullname: userName,
+            email: userEmail,
+            password: userPassword,
+          }
+        );
+
+        setLoading(false);
+        console.log(response.data);
+
+        if (response.data.status == true) {
+          setIsRegistrationSuccess(true);
+          console.log("Registration Successful. Please Login to proceed");
+        } else {
+          setErrorText(response.data.msg);
         }
-      );
-
-      setLoading(false);
-      console.log(response.data);
-
-      if (response.data.status == true) {
-        setIsRegistrationSuccess(true);
-        console.log("Registration Successful. Please Login to proceed");
-      } else {
-        setErrorText(response.data.msg);
+      } catch (error) {
+        setLoading(false);
+        console.error(error);
       }
-    } catch (error) {
-      setLoading(false);
-      console.error(error);
     }
   };
 
@@ -141,6 +168,10 @@ const RegisterScreen = (props) => {
               blurOnSubmit={false}
             />
           </View>
+          {errors.userName && (
+            <Text style={styles.errorTextStyle}>{errors.userName}</Text>
+          )}
+
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -159,6 +190,10 @@ const RegisterScreen = (props) => {
               blurOnSubmit={false}
             />
           </View>
+          {errors.userEmail && (
+            <Text style={styles.errorTextStyle}>{errors.userEmail}</Text>
+          )}
+
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -180,9 +215,10 @@ const RegisterScreen = (props) => {
               onPress={toggleShowNewPassword}
             />
           </View>
-          {errortext != "" ? (
-            <Text style={styles.errorTextStyle}>{errortext}</Text>
-          ) : null}
+          {errors.userPassword && (
+            <Text style={styles.errorTextStyle}>{errors.userPassword}</Text>
+          )}
+
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -204,10 +240,10 @@ const RegisterScreen = (props) => {
               onPress={toggleShowconfPassword}
             />
           </View>
+          {errors.confirmPassword && (
+            <Text style={styles.errorTextStyle}>{errors.confirmPassword}</Text>
+          )}
 
-          {errortext != "" ? (
-            <Text style={styles.errorTextStyle}>{errortext}</Text>
-          ) : null}
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
