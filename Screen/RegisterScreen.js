@@ -180,6 +180,30 @@ const RegisterScreen = (props) => {
               onPress={toggleShowNewPassword}
             />
           </View>
+          {errortext != "" ? (
+            <Text style={styles.errorTextStyle}>{errortext}</Text>
+          ) : null}
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(UserPassword) => setUserPassword(UserPassword)}
+              underlineColorAndroid="#f000"
+              placeholder="Confirm Password"
+              placeholderTextColor="#8b9cb5"
+              ref={passwordInputRef}
+              returnKeyType="next"
+              secureTextEntry={!showconfPassword}
+              onSubmitEditing={Keyboard.dismiss}
+              blurOnSubmit={false}
+            />
+            <MaterialCommunityIcons
+              name={showconfPassword ? "eye-off" : "eye"}
+              size={24}
+              color="#aaa"
+              style={styles.icon}
+              onPress={toggleShowconfPassword}
+            />
+          </View>
 
           {errortext != "" ? (
             <Text style={styles.errorTextStyle}>{errortext}</Text>
