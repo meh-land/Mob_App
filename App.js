@@ -170,9 +170,9 @@ const Auth = () => {
         options={{
           title: "Register", //Set Header Title
           headerStyle: {
-            backgroundColor: "#307ecc", //Set Header color
+            backgroundColor: "#ddd", //Set Header color
           },
-          headerTintColor: "#fff", //Set Header text color
+          headerTintColor: "#2d6250", //Set Header text color
           headerTitleStyle: {
             fontWeight: "bold", //Set Header text style
           },

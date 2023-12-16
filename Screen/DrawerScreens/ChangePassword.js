@@ -5,12 +5,13 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import Context from "../../Context";
 import axios from "axios";
 
 function ChangePasswordScreen({ navigation }) {
-  const { userData, setUserData, isInputDisabled } = useContext(Context);
+  const { userData, setUserData } = useContext(Context);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -50,6 +51,17 @@ function ChangePasswordScreen({ navigation }) {
       console.log(newPassword);
       if (response.data.status == true) {
         console.log("edited Sucessfully");
+        setUserData({ ...userData, password: newPassword });
+        setTimeout(() => {
+          Alert.alert(
+            "",
+            "Changed sucessfully",
+            [{ text: "OK", onPress: () => {} }],
+            {
+              cancelable: true,
+            }
+          );
+        }, 2000);
       } else {
         setErrorText(response.data.msg);
         console.log(response.data.status);

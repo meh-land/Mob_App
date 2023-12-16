@@ -42,7 +42,7 @@ const RegisterScreen = (props) => {
         "http://192.168.8.104/apicrud/addusers.php",
         {
           fullname: userName,
-          email: userName,
+          email: userEmail,
           password: userPassword,
         }
       );
@@ -67,7 +67,7 @@ const RegisterScreen = (props) => {
       <View
         style={{
           flex: 1,
-          backgroundColor: "#307ecc",
+          backgroundColor: "#ddd",
           justifyContent: "center",
         }}
       >
@@ -92,7 +92,7 @@ const RegisterScreen = (props) => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#307ecc" }}>
+    <View style={{ flex: 1, backgroundColor: "#ddd" }}>
       <Loader loading={loading} />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   buttonStyle: {
-    backgroundColor: "#7DE24E",
+    backgroundColor: "#2d6250",
     borderWidth: 0,
     color: "#FFFFFF",
     borderColor: "#7DE24E",
@@ -202,17 +202,17 @@ const styles = StyleSheet.create({
   },
   buttonTextStyle: {
     color: "#FFFFFF",
-    paddingVertical: 10,
+    paddingVertical: 5,
     fontSize: 16,
   },
   inputStyle: {
     flex: 1,
-    color: "white",
+    color: "#2d6250",
     paddingLeft: 15,
     paddingRight: 15,
     borderWidth: 1,
     borderRadius: 30,
-    borderColor: "#dadae8",
+    borderColor: "#2d6250",
   },
   errorTextStyle: {
     color: "red",
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   successTextStyle: {
-    color: "white",
+    color: "#2d6250",
     textAlign: "center",
     fontSize: 18,
     padding: 30,

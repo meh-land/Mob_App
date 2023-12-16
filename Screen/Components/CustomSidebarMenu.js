@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, Alert, StyleSheet, TouchableOpacity } from "react-native";
 
 import {
@@ -8,9 +8,11 @@ import {
 } from "@react-navigation/drawer";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Context from "../../Context";
 
 const CustomSidebarMenu = (props) => {
   const [isSubmenuExpanded, setIsSubmenuExpanded] = useState(false);
+  const { userData } = useContext(Context);
 
   const toggleSubmenu = () => {
     setIsSubmenuExpanded(!isSubmenuExpanded);
@@ -20,11 +22,11 @@ const CustomSidebarMenu = (props) => {
     <View style={stylesSidebar.sideMenuContainer}>
       <View style={stylesSidebar.profileHeader}>
         <View style={stylesSidebar.profileHeaderPicCircle}>
-          <Text style={{ fontSize: 25, color: "#307ecc" }}>
-            {"About React".charAt(0)}
+          <Text style={{ fontSize: 25, color: "#ddd" }}>
+            {userData.name.charAt(0)}
           </Text>
         </View>
-        <Text style={stylesSidebar.profileHeaderText}>AboutReact</Text>
+        <Text style={stylesSidebar.profileHeaderText}>{userData.name}</Text>
       </View>
       <View style={stylesSidebar.profileHeaderLine} />
 
@@ -125,13 +127,13 @@ const stylesSidebar = StyleSheet.create({
     height: 60,
     borderRadius: 60 / 2,
     color: "white",
-    backgroundColor: " #ddd",
+    backgroundColor: "#2d6250",
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",
   },
   profileHeaderText: {
-    color: "white",
+    color: "#2d6250",
     alignSelf: "center",
     paddingHorizontal: 10,
     fontWeight: "bold",
