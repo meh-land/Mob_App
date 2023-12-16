@@ -64,7 +64,7 @@ const RegisterScreen = (props) => {
     // Assuming you have a state for confirm password
     if (userPassword !== confirmPassword) {
       isValid = false;
-      errors.confirmPassword = "Passwords do not match";
+      errors.confirmPassword = "Passwords don't match";
     }
 
     setErrors(errors);
@@ -73,6 +73,8 @@ const RegisterScreen = (props) => {
 
   const handleSubmitButton = async () => {
     setErrorText("");
+    setErrors("");
+
     if (validate()) {
       setLoading(true);
 
