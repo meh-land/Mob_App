@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import Loader from "./Components/Loader";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const RegisterScreen = (props) => {
   const [userName, setUserName] = useState("");
@@ -20,6 +21,18 @@ const RegisterScreen = (props) => {
   const [loading, setLoading] = useState(false);
   const [errortext, setErrorText] = useState("");
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
+  // State variable to track password visibility
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showconfPassword, setShowconfPassword] = useState(false);
+
+  // Function to toggle the password visibility state
+  const toggleShowNewPassword = () => {
+    setShowNewPassword(!showNewPassword);
+  };
+
+  const toggleShowconfPassword = () => {
+    setShowconfPassword(!showconfPassword);
+  };
 
   const emailInputRef = createRef();
   const passwordInputRef = createRef();
@@ -155,9 +168,16 @@ const RegisterScreen = (props) => {
               placeholderTextColor="#8b9cb5"
               ref={passwordInputRef}
               returnKeyType="next"
-              secureTextEntry={true}
+              secureTextEntry={!showNewPassword}
               onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
+            />
+            <MaterialCommunityIcons
+              name={showNewPassword ? "eye-off" : "eye"}
+              size={24}
+              color="#aaa"
+              style={styles.icon}
+              onPress={toggleShowNewPassword}
             />
           </View>
 
@@ -181,11 +201,17 @@ export default RegisterScreen;
 const styles = StyleSheet.create({
   SectionStyle: {
     flexDirection: "row",
-    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 14,
+    height: 50,
     marginTop: 20,
     marginLeft: 35,
     marginRight: 35,
     margin: 10,
+    borderWidth: 1,
+    borderRadius: 30,
+    borderColor: "#2d6250",
   },
   buttonStyle: {
     backgroundColor: "#2d6250",
@@ -210,9 +236,6 @@ const styles = StyleSheet.create({
     color: "#2d6250",
     paddingLeft: 15,
     paddingRight: 15,
-    borderWidth: 1,
-    borderRadius: 30,
-    borderColor: "#2d6250",
   },
   errorTextStyle: {
     color: "red",
